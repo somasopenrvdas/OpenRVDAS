@@ -15,82 +15,223 @@
 #
 # Or view the data in a demo HTML page by opening the page at
 #   display\html\seawolf_demo.html
+#
+# To run configurations in this file:
+#
+#   python logger\listener\listen.py --config_file local\stonybrook\seawolf.yaml:met1_on
+#
+# To run with cached data server:
+# In one terminal:
+#   python logger\listener\listen.py --config_file local\stonybrook\seawolf.yaml:met1_cache
+#   python logger\listener\listen.py --config_file local\stonybrook\seawolf.yaml:gps1_on
+#   python logger\listener\listen.py --config_file local\stonybrook\seawolf.yaml:salinometer
+# In another:
+#   python server\cached_data_server --port 8766
+#
+# Should then be able to see live met data from cached data server via:
+#   python logger\listener\listen.py --cached_data Met1WindDirTrue,Met1WindSpeedKt@localhost:8766
+#
+# Or view the data in a demo HTML page by opening the page at
+#   display\html\seawolf_demo.html
+#
+# For each dictionary, make sure to use unique names for keys, or the display widgets will confused
+# and mistake one key for another and return the wrong value.
 
 configs:
   gps1_on:
     readers:
-    - class: SerialReader
+    - class: PolledSerialReader
+      module: logger.readers.polled_serial_reader
       kwargs:
-        port: com11
-        baudrate: 4800
+        eol: \t
+        port: com3
+        baudrate: 9600
+        timeout: .5 #what does this mean? Is it the same as __PAUSE__?
+        start_cmd:
+        pre_read_cmd:
+        - "$1RB\r"
     transforms:
-    - class: TimestampTransform
-    - class: PrefixTransform
-      kwargs:
-        prefix: gps1
     - class: ParseTransform
       kwargs:
-        definition_path: local\stonybrook\devices\*.yaml
-        quiet: true
+        record_format: '{field_string}'
+        field_patterns:  "$1RB\r\x00\n*{DGHTempC1:g}\r\n\x00\n*{DGHTempC2:g}\r\n\x00\n*{DGHTempC3:g}\r\n\x00\n*{DGHTempC4:g}"
+        quiet: false
     writers:
-    - class: TextFileWriter
+    - class: ComposedWriter
+      kwargs:
+        transforms:
+        - class: FormatTransform
+          module: logger.transforms.format_transform  # where the definition is
+          kwargs:
+            format_str: '{DGHTempC1} {DGHTempC2} {DGHTempC3} {DGHTempC4}'
+            defaults: {'DGHTemp': '-'}
+        - class: TimestampTransform
+        writers:
+          - class: TextFileWriter
+          - class: LogfileWriter      # Write to logfile
+            kwargs:
+              filebase: /acquire/rawfiles/SST/SST
+              suffix: '.txt'
+    - class: CachedDataWriter
+      kwargs:
+        data_server: localhost:8766
 
   gps1_cache:
     readers:
     - class: SerialReader
       kwargs:
-        port: com11
+        port: com7
         baudrate: 4800
     transforms:
     - class: TimestampTransform
-    - class: PrefixTransform
-      kwargs:
-        prefix: gps1
-    - class: ParseTransform
-      kwargs:
-        definition_path: local\stonybrook\devices\*.yaml
-        quiet: true
     writers:
     - class: TextFileWriter
-    - class: CachedDataWriter
+    - class: LogfileWriter
       kwargs:
-        data_server: localhost:8766
-
-  met1_on:
-    readers:
-    - class: SerialReader
+        filebase: /acquire/rawfiles/GPS/GPS1
+        suffix: '.txt'
+    - class: ComposedWriter
       kwargs:
-        port: com6
-        baudrate: 4800
-    transforms:
-    - class: TimestampTransform
-    - class: PrefixTransform
-      kwargs:
-        prefix: met1
-    - class: ParseTransform
-      kwargs:
-        definition_path: local\stonybrook\devices\*.yaml
-        quiet: true
-    writers:
-    - class: TextFileWriter
+        transforms:
+        - class: PrefixTransform
+          kwargs:
+            prefix: gps1
+        - class: ParseTransform
+          kwargs:
+            definition_path: local\stonybrook\devices\*.yaml
+            quiet: true
+        writers:
+        - class: CachedDataWriter #what information is being uploaded to the server?
+          kwargs:
+            data_server: localhost:8766
 
   met1_cache:
     readers:
     - class: SerialReader
       kwargs:
         port: com6
-        baudrate: 4800
+        baudrate: 4800 #how come we don't need to specify byte size and parity, but the salinometer does?
     transforms:
     - class: TimestampTransform
-    - class: PrefixTransform
-      kwargs:
-        prefix: met1
-    - class: ParseTransform
-      kwargs:
-        definition_path: local\stonybrook\devices\*.yaml
-        quiet: true
     writers:
     - class: TextFileWriter
+    - class: LogfileWriter      # Write to logfile
+      kwargs:
+        filebase: /acquire/rawfiles/met1/met1
+        suffix: '.txt'
+    - class: ComposedWriter
+      kwargs:
+        transforms:
+        - class: PrefixTransform
+          kwargs:
+            prefix: met1
+        - class: ParseTransform #provides a file to check through to see if any patterns match the input
+          kwargs:
+            definition_path: local\stonybrook\devices\*.yaml #but there are multiple devices here, how does code know which one's the right one?
+            quiet: true
+        writers:
+        - class: CachedDataWriter
+          kwargs:
+            data_server: localhost:8766
+
+  fluorometer:
+    readers:
+      - class: SerialReader
+        kwargs:
+          port: com5
+          baudrate: 9600
+    transforms:
+      - class: ToDASRecordTransform
+        kwargs:
+          field_name: fluoro
+    writers:
+      - class: ComposedWriter
+        kwargs:
+          transforms:
+            - class: ExtractFieldTransform
+              kwargs:
+                field_name: fluoro
+            - class: TimestampTransform
+          writers:
+            - class: TextFileWriter
+            - class: LogfileWriter
+              kwargs:
+                filebase: /acquire/rawfiles/TurnerC3/Turner
+                suffix: '.txt'
+      - class: CachedDataWriter
+        kwargs:
+          data_server: localhost:8766
+
+  salinometer:
+    readers:
+    - class: SerialReader
+      kwargs:
+        eol: \r\n
+        port: com4
+        baudrate: 9600
+        bytesize: 8
+        parity: 'N' #is specifying bytesize/parity necessary?
+    transforms:
+    - class: ParseTransform
+      kwargs:
+        record_format: '{field_string}'
+        field_patterns:  "{TSGTemp:g},  {conductivity:g},  {salinity:g}"
+        quiet: false
+    writers:
+    - class: ComposedWriter
+      kwargs:
+        transforms:
+        - class: FormatTransform
+          module: logger.transforms.format_transform  # where the definition is
+          kwargs:
+            format_str: '{TSGTemp}, {conductivity}, {salinity}'
+            defaults: {'val': '-'} #what is defaults for?
+        - class: TimestampTransform
+        writers:
+          - class: TextFileWriter
+          - class: LogfileWriter      # Write to logfile
+            kwargs:
+              filebase: /acquire/rawfiles/tsal/tsal
+              suffix: '.txt'
     - class: CachedDataWriter
       kwargs:
         data_server: localhost:8766
+
+  OpticalDO:
+    readers:
+    - class: PolledSerialReader
+      module: logger.readers.polled_serial_reader
+      kwargs:
+        eol: \t
+        port: com8
+        baudrate: 9600
+        timeout: .5
+        start_cmd:
+        pre_read_cmd:
+        - "$1RB\r"
+        #- __PAUSE__ 5
+    transforms:
+      - class: ParseTransform
+        kwargs:
+          record_format: '{field_string}'
+          field_patterns: "$1RB\r\x00\n*{voltage1:g}\r\n\x00\n*{voltage2:g}\r\n\x00\n*{voltage3:g}\r\n\x00\n*{voltage4:g}"
+          quiet: false
+    writers:
+      - class: ComposedWriter
+        kwargs:
+          transforms:
+            - class: FormatTransform
+              module: logger.transforms.format_transform  # where the definition is
+              kwargs:
+                format_str: '{voltage1} {voltage2} {voltage3} {voltage4}'
+                defaults: {'voltage_default': '-'}
+            - class: TimestampTransform
+          writers:
+            - class: TextFileWriter
+            - class: LogfileWriter      # Write to logfile
+              kwargs:
+               filebase: C:/acquire/rawfiles/ODO/ODO
+               suffix: '.txt'
+      - class: CachedDataWriter
+        kwargs:
+          data_server: localhost:8766

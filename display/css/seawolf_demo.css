@@ -1,0 +1,14 @@
+html, input, select, textarea,
+.pure-g [class *= "pure-u"] {
+    /* Set content font stack here: */
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: center;
+}
+
+table {
+    width: 100%
+}
+
+td {
+    text-align: left;
+}
