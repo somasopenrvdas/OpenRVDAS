@@ -24,7 +24,6 @@ var widget_height = 200
 //Wind widgets.
 
 
-
 widget_list.push(new DialWidget('true_wind_dial',
                                   {
                                     Met1WindDirTrue: {
@@ -45,7 +44,7 @@ widget_list.push(new DialWidget('true_wind_dial',
                                    maxPadding: 0.05}));
 
 
-//why do true wind direction and wind speed need custom timeouts?f
+//why do true wind direction and wind speed need custom timeouts?
 widget_list.push(new TextWidget('true_wind_dir',
                                  {
                                    Met1WindDirTrue: {
@@ -55,20 +54,47 @@ widget_list.push(new TextWidget('true_wind_dir',
                                          15: "background-color:red"
                                         }}}));
 
-widget_list.push(new TextWidget('wind_speed_kt',
+widget_list.push(new TextWidget('rel_wind_dir',
                                  {
-                                   Met1WindSpeedKt: {
-                                        name: 'Wind Speed, kt',
+                                   Met1WindDirMag: {
+                                        name: 'Relative Wind',
                                         timeout_css: {
                                           5: "background-color:yellow",
                                          15: "background-color:red"
                                         }}}));
 
+widget_list.push(new DialWidget('rel_wind_dial',
+                                  {
+                                    Met1WindDirMag: {
+                                    name: 'Relative Wind',
+                                    color: 'red',
+                                  }},
+                                  {title:{text:''},
+                                   chart:{type: 'gauge',
+                                          backgroundColor:'white',
+                                          maxPadding:0,
+                                          marginTop:0,
+                                          marginBottom:0,
+                                          marginLeft:0,
+                                          marginRight:0,
+                                          height: widget_height,
+                                          width: widget_height,
+                                         },
+                                   maxPadding: 0.05}));
+
+widget_list.push(new TextWidget('wind_speed_kt',
+                                 {
+                                   Met1WindSpeedKt: {
+                                        name: 'True Wind Speed, kt',
+                                        timeout_css: {
+                                          5: "background-color:yellow",
+                                         15: "background-color:red"
+                                        }}}));
 
 widget_list.push(new TimelineWidget('wind_speed_line',
                                     {
                                       Met1WindSpeedKt: {
-                                        name: 'Wind Speed, kt',
+                                        name: 'True Wind Speed, kt',
                                         seconds: 3600,
                                         color: 'red'
                                       }},
@@ -78,12 +104,31 @@ widget_list.push(new TimelineWidget('wind_speed_line',
                                     {title:{text:''}}
                                  ));
 
+widget_list.push(new TextWidget('rel_wind_speed',
+                                 {
+                                   Met1WindSpeedM: {
+                                        name: 'Relative Wind Speed, kt',
+                                        timeout_css: {
+                                          5: "background-color:yellow",
+                                         15: "background-color:red"
+                                        }}}));
+
+widget_list.push(new TimelineWidget('rel_speed_graph',
+                                    {
+                                      Met1WindSpeedM: {
+                                        name: 'Relative Wind Speed, kt',
+                                        seconds: 3600,
+                                        color: 'red'
+                                      }},
+                                    'Knots',
+                                    {title:{text:'Relative Wind Speed'},
+                                    chart: {type: 'line', height: widget_height, width: widget_width}},
+                                    {title:{text:''}}
+                                 ));
+
 ////////////////////////////////////////////////////////////////////////////////
-/*
-GPS text widgets.
-Includes latitude, longitude, north/south, east/west, true course,
-true heading degree, speed over ground, pitch, and roll.
-*/
+//GPS text widgets.
+
 
 widget_list.push(new TextWidget('gps_lat',
                                 {
@@ -146,7 +191,7 @@ widget_list.push(new TextWidget('roll',
                                   }}));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Air and water temperature text widgets.
+//Air and water temperature widgets.
 
 widget_list.push(new TextWidget('air_temp',
                                 {
@@ -185,7 +230,7 @@ widget_list.push(new TimelineWidget('water_temp_graph',
                                     ));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Barometric pressure text widgets.
+//Barometric pressure widgets.
 
 widget_list.push(new TextWidget('baro_pres_in',
                                 {
@@ -225,7 +270,7 @@ widget_list.push(new TimelineWidget('baro_pres_bar_graph',
                                     ));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Magnetic variation text widgets.
+//Magnetic variation widgets.
 
 widget_list.push(new TextWidget('mag_var',
                                 {
@@ -363,7 +408,7 @@ widget_list.push(new TimelineWidget('do_sat_graph',
                                     ));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Fluorometer text widget.
+//Fluorometer widget.
 widget_list.push(new TextWidget('fluoro',
                                 {
                                   fluoro: {
@@ -376,7 +421,7 @@ widget_list.push(new TextWidget('fluoro',
                                    }}));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Salinity text widget.
+//Salinity widget.
 widget_list.push(new TextWidget('salinity',
                                  {
                                    salinity: {
