@@ -141,16 +141,20 @@ configs:
           port: com5
           baudrate: 9600
     transforms:
-      - class: ToDASRecordTransform
-        kwargs:
-          field_name: fluoro
+    - class: ParseTransform
+      kwargs:
+        record_format: '{field_string}'
+        field_patterns:  "{fluorodate:S} {fluorotime:S}      {chlorophyll:g}     {turbidity:g}     {CDOM:g}   {depth:g}  {TC3Temp:g}"
+        quiet: false
     writers:
       - class: ComposedWriter
         kwargs:
           transforms:
-            - class: ExtractFieldTransform
+            - class: FormatTransform
+              module: logger.transforms.format_transform  # where the definition is
               kwargs:
-                field_name: fluoro
+                format_str: '{chlorophyll} {turbidity} {CDOM} {depth} {TC3Temp}'
+                defaults: {'fluoro': '-'} #what is defaults for?
             - class: TimestampTransform
           writers:
             - class: TextFileWriter

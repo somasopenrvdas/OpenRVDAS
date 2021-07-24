@@ -1,14 +1,71 @@
-html, input, select, textarea,
-.pure-g [class *= "pure-u"] {
-    /* Set content font stack here: */
+html {
+    overflow: hidden;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    text-align: center;
-}
-
-table {
-    width: 100%
 }
 
 td {
-    text-align: left;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+p {
+    font-weight: bold;
+    font-size: x-large;
+}
+.timestamp {
+    font-weight: bold;
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+
+.top-center {
+    font-weight: bold;
+    font-size: x-large;
+    position: relative;
+    left: 42%;
+}
+
+.vessel {
+    font-weight: bold;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.nav_div {
+    margin-top: 20px;
+}
+
+.expand {
+    display: inline-flex;
+    vertical-align: top;
+}
+
+.outer {
+    display: flex;
+    width: 100%;
+    border: 1px solid black;
+    zoom: 97%;
+    white-space: nowrap;
+    justify-content: center;
+    /* align-items:flex-start; */
+}
+
+.center {
+    text-align: center;
+}
+
+#date {
+    padding-right: 5px;
+}
+
+#met {
+    position: relative;
+    right: 1.2%;
+}
+
+#hydrographic {
+    position: relative;
+    left: 3.5%;
 }

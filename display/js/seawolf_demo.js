@@ -17,7 +17,7 @@
 var list = new Array
 var WEBSOCKET_DATA_SERVER = 'ws://localhost:8766'
 var widget_list = []
-var widget_width = 400
+var widget_width = document.getElementById('measurements').rows[0].cells[0].offsetWidth + 100
 var widget_height = 200
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -408,17 +408,66 @@ widget_list.push(new TimelineWidget('do_sat_graph',
                                     ));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Fluorometer widget.
-widget_list.push(new TextWidget('fluoro',
-                                {
-                                  fluoro: {
-                                    name: 'fluorometer',
-                                    transform: function (val) {
-                                      let replaced = val.replace(/\s+/g,' ').trim();
-                                      const splitArr = replaced.split(" ");
-                                      return "Chlorophyll: " + splitArr[3] + " ug/l" + "<br>" + "Turbidity: " + splitArr[4] + " NTU" + "<br>" + "CDOM: " + splitArr[5] + " ppb";
-                                    }
-                                   }}));
+//Fluorometer widgets.
+widget_list.push(new TextWidget('chloro',
+                                 {
+                                   chlorophyll: {
+                                     name: 'Chlorophyll'
+                                 }}));
+
+widget_list.push(new TimelineWidget('chloro_graph',
+                                     {
+                                       chlorophyll: {
+                                         name: 'Chlorophyll',
+                                         seconds: 3600,
+                                         color: 'green'
+                                      }},
+                                    'ug/L',
+                                    {title:{text:'Chlorophyll'},
+                                    chart: {type: 'line', height: widget_height, width: widget_width}}
+                                    ));
+
+widget_list.push(new TextWidget('turbid',
+                                 {
+                                   turbidity: {
+                                     name: 'Turbidity'
+                                 }}));
+
+widget_list.push(new TimelineWidget('turbid_graph',
+                                     {
+                                       turbidity: {
+                                         name: 'Turbidity',
+                                         seconds: 3600,
+                                         color: 'brown'
+                                      }},
+                                    'NTU',
+                                    {title:{text:'Turbidity'},
+                                    chart: {type: 'line', height: widget_height, width: widget_width}}
+                                    ));
+
+widget_list.push(new TextWidget('cdom',
+                                 {
+                                   CDOM: {
+                                     name: 'CDOM'
+                                 }}));
+
+widget_list.push(new TimelineWidget('cdom_graph',
+                                     {
+                                       CDOM: {
+                                         name: 'CDOM',
+                                         seconds: 3600,
+                                         color: 'orange'
+                                      }},
+                                    'ppb',
+                                    {title:{text:'CDOM'},
+                                    chart: {type: 'line', height: widget_height, width: widget_width}}
+                                    ));
+
+widget_list.push(new TextWidget('tc3temp',
+                                 {
+                                   TC3Temp: {
+                                     name: 'TC3 Temperature'
+                                 }}));
 
 ////////////////////////////////////////////////////////////////////////////////
 //Salinity widget.

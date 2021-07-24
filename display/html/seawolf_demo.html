@@ -29,149 +29,184 @@
     <script src="../js/widgets/widget_server.js"></script>
 
 
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-3">
-        <div class="l-box">
-          <h1><span id="date">--</span></h1>
+    <span class="vessel">R/V Seawolf</span>
+    <span class="timestamp"><span id="time_utc">--</span> (UTC)</span>
+    <span class="timestamp" id="date">--</span>
+    <span class="top-center">Navigation</span>
+
+    <div class="pure-g nav_div">
+        <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-4">
+            <table class="pure-table pure-table-horizontal" style="width: 100%;">
+              <tr>
+                <td>Latitude</td>
+                <td>
+                  <span id="gps_lat">--</span>°
+                  <span id="gps_n_or_s"></span>
+                </td>
+              </tr>
+              <tr>
+                <td>Longitude</td>
+                <td>
+                  <span id="gps_lon">--</span>°
+                  <span id="gps_e_or_w"></span>
+                </td>
+              </tr>
+            </table>
+        </div>
+        <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-4">
+            <table class="pure-table pure-table-horizontal" style="width: 100%;">
+              <tr>
+                <td>Vessel Heading</td>
+                <td><span id="heading_true">--</span>° T</td>
+              </tr>
+              <tr>
+                <td>Magnetic Variation</td>
+                <td>
+                  <span id="mag_var">--</span>
+                  <span id="mag_var_EorW"></span>
+                </td>
+              </tr>
+            </table>
+        </div>
+        <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-4">
+          <table class="pure-table pure-table-horizontal" style="width: 100%;">
+            <tr>
+                <td>Speed Over Ground</td>
+                <td><span id="gps_sog">--</span> kt</td>
+              </tr>
+              <tr>
+                <td>Course Over Ground</td>
+                <td><span id="course_true">--</span> </td>
+              </tr>
+          </table>
+        </div>
+        <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-4">
+          <table class="pure-table pure-table-horizontal" style="width: 100%;">
+              <tr>
+                <td>Vessel Pitch</td>
+                <td><span id="pitch">--</span>°</td>
+              </tr>
+              <tr>
+                <td>Vessel Roll</td>
+                <td><span id="roll">--</span>°</td>
+              </tr>
+          </table>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="outer">
+      <div class="center">
+        <p id="met">Met</p>
+        <div class="expand" id="met1">
+          <table class="pure-table pure-table-horizontal" id="measurements">
+            <tr>
+              <td>True Wind Direction</td>
+              <td><span id="true_wind_dir">--</span>°</td>
+              <td><div id="true_wind_dial"></div></td>
+            </tr>
+            <tr>
+              <td>True Wind Speed</td>
+              <td><span id="wind_speed_kt">--</span> kt</td>
+              <td><div id="wind_speed_line"></div></td>
+            </tr>
+            <tr>
+              <td>Relative Wind Direction</td>
+              <td><span id="rel_wind_dir">--</span>°</td>
+              <td><div id="rel_wind_dial"></div></td>
+            </tr>
+            <tr>
+              <td>Relative Wind Speed</td>
+              <td><span id="rel_wind_speed">--</span> kt</td>
+              <td><div id="rel_speed_graph"></div></td>
+            </tr>
+          </table>
+        </div>
+        <div class="expand" id="met2">
+          <table class="pure-table pure-table-horizontal">
+            <tr>
+              <td>Air Temperature</td>
+              <td><span id="air_temp">--</span>° C</td>
+              <td><div id="air_temp_graph"></div></td>
+            </tr>
+            <tr>
+              <td>Barometric Pressure Inches</td>
+              <td><span id="baro_pres_in">--</span> in</td>
+              <td><div id="baro_pres_in_graph"></div></td>
+            </tr>
+            <tr>
+              <td>Barometric Pressure Bar</td>
+              <td><span id="baro_pres_bar">--</span> bar</td>
+              <td><div id="baro_pres_bar_graph"></div></td>
+            </tr>
+          </table>
         </div>
       </div>
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-3">
-        <div class="l-box">
-          <h1>R/V Seawolf</h1>
+      <div class="center">
+        <p id="hydrographic">Hydrographic</p>
+        <div class="expand" id="hydro1">
+          <table class="pure-table pure-table-horizontal">
+            <tr>
+              <td> Water Temperature</td>
+              <td><span id="water_temp">--</span>° C</td>
+              <td><div id="water_temp_graph"></div></td>
+            </tr>
+            <tr>
+              <td>
+                <span style="display: block;">Salinity</span>
+                TSG Temperature
+              </td>
+              <td>
+                <span style="display: block;"><span id="salinity">--</span> psu</span>
+                <span style="display: block;"><span id="tsg_temp">--</span>° C</span>
+              </td>
+              <td><div id="sal_graph"></div></td>
+            </tr>
+            <tr>
+              <td>Dissolved Oxygen</td>
+              <td>
+                <span id="do">--</span> mg/L
+              </td>
+              <td><div id="do_graph"></div></td>
+            </tr>
+            <tr>
+              <td>Dissolved Oxygen Saturation</td>
+              <td><span id="do_saturation">--</span> %</td>
+              <td><div id="do_sat_graph"></div></td>
+            </tr>
+          </table>
         </div>
-      </div>
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-3">
-        <div class="l-box">
-          <h1><span id="time_utc">--</span> (UTC)</h1>
+        <div class="expand" id="hydro2">
+          <table class="pure-table pure-table-horizontal">
+            <tr>
+              <td>
+                <span style="display: block;">Chlorophyll</span>
+                <span style="display: block;">TC3 Temperature</span>
+              </td>
+              <td>
+                <span style="display: block;"><span id="chloro">--</span> ug/l</span>
+                <span style="display: block;"><span id="tc3temp">--</span>° C</span>
+              </td>
+              <td><div id="chloro_graph"></div></td>
+            </tr>
+            <tr>
+              <td>Turbidity</td>
+              <td><span id="turbid">--</span> NTU</td>
+              <td><div id="turbid_graph"></div></td>
+            </tr>
+            <tr>
+              <td>CDOM</td>
+              <td><span id="cdom">--</span> ppb</td>
+              <td><div id="cdom_graph"></div></td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
 
-    <div class="pure-g">
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-1-5">
-          <h1>Navigation</h1>
-          <table class="pure-table pure-table-horizontal">
-            <tr>
-              <td>Latitude</td>
-              <td>
-                <span id="gps_lat">--</span>°
-                <span id="gps_n_or_s"></span>
-              </td>
-            </tr>
-            <tr>
-              <td>Longitude</td>
-              <td>
-                <span id="gps_lon">--</span>°
-                <span id="gps_e_or_w"></span>
-              </td>
-            </tr>
-            <tr>
-              <td>Vessel Heading</td>
-              <td><span id="heading_true">--</span>° T</td>
-            </tr>
-            <tr>
-              <td>Speed Over Ground</td>
-              <td><span id="gps_sog">--</span> kt</td>
-            </tr>
-            <tr>
-              <td>Course Over Ground</td>
-              <td><span id="course_true">--</span> </td>
-            </tr>
-            <tr>
-              <td>Vessel Pitch</td>
-              <td><span id="pitch">--</span>°</td>
-            </tr>
-            <tr>
-              <td>Vessel Roll</td>
-              <td><span id="roll">--</span>°</td>
-            </tr>
-            <tr>
-              <td>Magnetic Variation</td>
-              <td>
-                <span id="mag_var">--</span>
-                <span id="mag_var_EorW"></span>
-              </td>
-            </tr>
-          </table>
-        </div>
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-2-5">
-        <h1>Met</h1>
-        <table class="pure-table pure-table-horizontal">
-          <tr>
-            <td>True Wind Direction</td>
-            <td><span id="true_wind_dir">--</span>°</td>
-            <td><div id="true_wind_dial"></div></td>
-          </tr>
-          <tr>
-            <td>True Wind Speed</td>
-            <td><span id="wind_speed_kt">--</span> kt</td>
-            <td><div id="wind_speed_line"></div></td>
-          </tr>
-          <tr>
-            <td>Relative Wind Direction</td>
-            <td><span id="rel_wind_dir">--</span>°</td>
-            <td><div id="rel_wind_dial"></div></td>
-          </tr>
-          <tr>
-            <td>Relative Wind Speed</td>
-            <td><span id="rel_wind_speed">--</span> kt</td>
-            <td><div id="rel_speed_graph"></div></td>
-          </tr>
-          <tr>
-            <td>Air Temperature</td>
-            <td><span id="air_temp">--</span>° C</td>
-            <td><div id="air_temp_graph"></div></td>
-          </tr>
-          <tr>
-            <td>Barometric Pressure Inches</td>
-            <td><span id="baro_pres_in">--</span> in</td>
-            <td><div id="baro_pres_in_graph"></div></td>
-          </tr>
-          <tr>
-            <td>Barometric Pressure Bar</td>
-            <td><span id="baro_pres_bar">--</span> bar</td>
-            <td><div id="baro_pres_bar_graph"></div></td>
-          </tr>
-        </table>
-      </div>
-      <div class="pure-u-1 pure-u-md-1 pure-u-lg-2-5">
-        <h1>Hydrographic</h1>
-        <table class="pure-table pure-table-horizontal">
-          <tr>
-            <td> Water Temperature</td>
-            <td><span id="water_temp">--</span>° C</td>
-            <td><div id="water_temp_graph"></div></td>
-          </tr>
-          <tr>
-            <td>
-              <span style="display: block;">Salinity</span>
-              TSG Temperature
-            </td>
-            <td>
-              <span style="display: block;"><span id="salinity">--</span> psu</span>
-              <span style="display: block;"><span id="tsg_temp">--</span>° C</span>
-            </td>
-            <td><div id="sal_graph"></div></td>
-          </tr>
-          <tr>
-            <td>Dissolved Oxygen</td>
-            <td>
-              <span id="do">--</span> mg/L
-            </td>
-            <td><div id="do_graph"></div></td>
-          </tr>
-          <tr>
-            <td>Dissolved Oxygen Saturation</td>
-            <td><span id="do_saturation">--</span> %</td>
-            <td><div id="do_sat_graph"></div></td>
-          </tr>
-          <tr>
-            <td class="name_td">Fluorometer</td>
-            <td class="val_td"><span id="fluoro">--</span></td>
-          </tr>
-        </table>
-      </div>
-    </div>
 
     <script type="text/javascript" src="../js/seawolf_demo.js"></script>
 
