@@ -105,7 +105,7 @@ function get_os_type {
     elif [[ `uname -s` == 'Linux' ]];then
         if [[ ! -z `grep "NAME=\"Ubuntu\"" /etc/os-release` ]];then
             OS_TYPE=Ubuntu
-        elif [[ ! -z `grep "NAME=\"CentOS Linux\"" /etc/os-release` ]];then
+        elif [[ ! -z `grep "NAME=\"CentOS Linux\"" /etc/os-release` ]] || [[ ! -z `grep "NAME=\"Red Hat Enterprise Linux Server\"" /etc/os-release` ]];then
             OS_TYPE=CentOS
         else
             echo Unknown Linux variant!
@@ -248,6 +248,15 @@ function install_influxdb {
         echo "from all Grafana and Telegraf servers."
         yes_no "Overwrite existing installation?" no
         if [ $YES_NO_RESULT == 'no' ];then
+
+            # They may have run install_openrvdas.sh again, which will have overwritten our
+            # virtual environment and any settings in database/settings.py. So even if we're
+            # not updating the installation, make sure we've still got influxdb_client and
+            # grab the latest auth token and stuff it back in.
+            pip install \
+                --trusted-host pypi.org --trusted-host files.pythonhosted.org \
+                influxdb_client
+            fix_database_settings
             return 0
         fi
     fi
