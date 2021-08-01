@@ -1,29 +1,17 @@
 html {
-    overflow: hidden;
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-}
-
-td {
-    padding-right: 0px;
-    padding-left: 0px;
 }
 
 p {
     font-weight: bold;
     font-size: x-large;
 }
+
 .timestamp {
     font-weight: bold;
     float: right;
     margin-top: 5px;
     margin-right: 5px;
-}
-
-.top-center {
-    font-weight: bold;
-    font-size: x-large;
-    position: relative;
-    left: 42%;
 }
 
 .vessel {
@@ -37,23 +25,30 @@ p {
     margin-top: 20px;
 }
 
-.expand {
-    display: inline-flex;
+.zoom {
+    table-layout: fixed;
     vertical-align: top;
 }
 
+.zoom td:nth-child(4), .zoom td:nth-child(7), .zoom td:nth-child(10) {
+    border-left: solid 0.5px gray;
+}
 .outer {
-    display: flex;
-    width: 100%;
+    display: table;
     border: 1px solid black;
-    zoom: 97%;
     white-space: nowrap;
     justify-content: center;
-    /* align-items:flex-start; */
+    align-items: center;
+    transform: scale(0.74);
+    transform-origin: top left;
+    margin-left: 4px;
 }
 
-.center {
-    text-align: center;
+#top-center {
+    font-weight: bold;
+    font-size: x-large;
+    position: relative;
+    left: 42%;
 }
 
 #date {
@@ -62,10 +57,12 @@ p {
 
 #met {
     position: relative;
-    right: 1.2%;
+    float: left;
+    left: 23%;
 }
 
 #hydrographic {
     position: relative;
-    left: 3.5%;
+    float: right;
+    right: 20%;
 }

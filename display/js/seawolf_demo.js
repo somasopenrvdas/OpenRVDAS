@@ -17,7 +17,7 @@
 var list = new Array
 var WEBSOCKET_DATA_SERVER = 'ws://localhost:8766'
 var widget_list = []
-var widget_width = document.getElementById('measurements').rows[0].cells[0].offsetWidth + 100
+var widget_width = 300
 var widget_height = 200
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +127,7 @@ widget_list.push(new TimelineWidget('rel_speed_graph',
                                  ));
 
 ////////////////////////////////////////////////////////////////////////////////
-//GPS text widgets.
+//Navigation text widgets.
 
 
 widget_list.push(new TextWidget('gps_lat',
@@ -470,7 +470,7 @@ widget_list.push(new TextWidget('tc3temp',
                                  }}));
 
 ////////////////////////////////////////////////////////////////////////////////
-//Salinity widget.
+//Salinity widgets.
 widget_list.push(new TextWidget('salinity',
                                  {
                                    salinity: {
@@ -495,6 +495,8 @@ widget_list.push(new TimelineWidget('sal_graph',
                                     chart: {type: 'line', height: widget_height, width: widget_width}}
                                     ));
 
+////////////////////////////////////////////////////////////////////////////////
+//Start the server.
 var widget_server = new WidgetServer(widget_list, WEBSOCKET_DATA_SERVER);
 
 widget_server.serve();

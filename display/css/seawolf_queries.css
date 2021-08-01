@@ -1,0 +1,137 @@
+@media only screen and (max-width: 450px)  {
+    .pure-table {
+        border: none;
+    }
+    .pure-table td, .pure-table th {
+        border: none;
+    }
+
+    .nav_div tr {
+        border: 1px solid gray;
+    }
+
+    .outer table, .zoom tr, .zoom td {
+        display: inline-block;
+        width: 100vw;
+    }
+
+    .nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .zoom {
+        table-layout: fixed;
+        vertical-align: top;
+    }
+
+    .zoom td {
+        padding: 10px;
+    }
+
+    .outer {
+        display: table;
+        border: none;
+        width: 100%;
+        white-space: pre-wrap;
+        font-size: large;
+        transform: scale(1);
+        transform-origin: top left;
+    }
+
+    .empty, .label {
+        display: none !important;
+    }
+
+    #scroll-wrapper {
+        overflow-x: hidden;
+    }
+
+    #top-center {
+        display: block;
+        position: relative;
+        padding: 40px 0px 10px 0px;
+        left: 50%;
+        margin-left: -59.32px;
+    }
+
+    #met, #hydrographic {
+        display: none;
+    }
+
+    #first-row::before {
+        content: "Met and Hydrographic";
+        font-weight: bold;
+        font-size: x-large;
+        position: relative;
+        left: 50%;
+        margin-left: -122.76px;
+    }
+
+    #true_wind_dir::before {
+        content: "True Wind Direction  ";
+    }
+
+    #air_temp::before {
+        content: "Air Temperature  ";
+    }
+
+    #water_temp::before {
+        content: "Water Temperature  ";
+    }
+
+    #chloro::before {
+        content: "Chlorophyll  ";
+    }
+
+    #tc3temp::before {
+        content: "TC3 Temperature  ";
+    }
+
+    #wind_speed_kt::before {
+        content: "True Wind Speed  ";
+    }
+
+    #baro_pres_in::before {
+        content: "Barometric Pressure Inches  ";
+    }
+
+    #salinity::before {
+        content: "Salinity  ";
+    }
+
+    #tsg_temp::before {
+        content: "TSG Temperature  ";
+    }
+
+    #turbid::before {
+        content: "Turbidity  ";
+    }
+
+    #rel_wind_dir::before {
+        content: "Relative Wind Direction  ";
+    }
+
+    #baro_pres_bar::before {
+        content: "Barometric Pressure Bar  ";
+    }
+
+    #do::before {
+        content: "Barometric Pressure Bar  ";
+    }
+
+    #cdom::before {
+        content: "CDOM  ";
+    }
+
+    #rel_wind_speed::before {
+        content: "Relative Wind Speed  ";
+    }
+
+    #do_saturation::before {
+        content: "Dissolved Oxygen Saturation  ";
+    }
+}
