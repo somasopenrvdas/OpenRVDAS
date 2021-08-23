@@ -141,13 +141,13 @@ configs:
           port: com5
           baudrate: 9600
     transforms:
+    - class: RemoveWhitespaceTransform #removes trailing and redundant whitespace
+      module: logger.transforms.remove_whitespace_transform #where the definition is
     - class: ParseTransform
       kwargs:
         record_format: '{field_string}'
         field_patterns:
-          - "{fluorodate:S} {fluorotime:S}      {chlorophyll:g}     {turbidity:g}     {CDOM:g}   {depth:g}  {TC3Temp:g}"
-          - "{fluorodate:S}  {fluorotime:S}      {chlorophyll:g}     {turbidity:g}     {CDOM:g}   {depth:g}  {TC3Temp:g}"
-          - "{fluorodate:S}   {fluorotime:S}      {chlorophyll:g}     {turbidity:g}     {CDOM:g}   {depth:g}  {TC3Temp:g}"
+          - "{fluorodate:S} {fluorotime:S} {chlorophyll:g} {turbidity:g} {CDOM:g} {depth:g} {TC3Temp:g}"
         quiet: false
     writers:
       - class: ComposedWriter
